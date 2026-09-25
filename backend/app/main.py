@@ -4,7 +4,7 @@ from typing import Literal
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+from fastapi import Response
 
 class Photo(BaseModel):
     id: str
@@ -40,8 +40,11 @@ content = Celebration.model_validate(
 def health() -> dict[str, str]:
     return {"status": "ok"}
 
+@app.head("/api/health")
+def health_head():
+    return Response(status_code=200)
+
 
 @app.get("/api/celebration", response_model=Celebration)
 def celebration() -> Celebration:
     return content
-
